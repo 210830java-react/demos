@@ -1,8 +1,17 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { getPokemon } from './remote/poke-api/poke.api';
 
-function App() {
+const App: React.FC<unknown> = () => {
+
+  useEffect( () => {
+    (async () => {
+      console.log(await getPokemon('arcanine'));
+    });
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
