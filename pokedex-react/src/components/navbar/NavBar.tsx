@@ -12,7 +12,7 @@ const NavBar: React.FC<unknown> = () => {
   }
 
   return (
-    <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
+    <nav className="navbar navbar-expand-md navbar-light bg-light">
       <div id="nav" className="container-fluid">
         <NavLink className="navbar-brand" to="/">Home</NavLink>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
