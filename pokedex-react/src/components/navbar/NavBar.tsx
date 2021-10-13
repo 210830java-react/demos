@@ -44,7 +44,7 @@ const NavBar: React.FC<unknown> = () => {
               )
             } */}
             <Button onClick={() => someCallback()}>
-              Go Home
+              Go to Pokedex
             </Button>
           </ul>
         </div>
