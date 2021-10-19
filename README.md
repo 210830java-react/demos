@@ -90,3 +90,5 @@ other-branch
     - [Notes](https://github.com/200810jwa/demos/tree/master/week3/notes)
         - Note: They are split between markdown and whiteboard notes
     - [Demo](https://github.com/200810jwa/demos/tree/master/week3/ServletDemo)
+- Microservices
+    - [Notes](https://github.com/210524training/demos/blob/main/week8/notes/microservices.md)
