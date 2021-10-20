@@ -72,11 +72,11 @@ public class QuizController {
 		quizDao.save(quiz);
 		return quiz;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@GetMapping("/cards")
 	public ResponseEntity<List<Flashcard>> getCards() {
-		List<Flashcard> all = restTemplate.getForObject("http://flashcard-service/flashcard", List.class);
+		List<Flashcard> all = restTemplate.getForObject("http://localhost:8081/flashcard", List.class);
 		
 		if(all.isEmpty()) {
 			return ResponseEntity.noContent().build();
