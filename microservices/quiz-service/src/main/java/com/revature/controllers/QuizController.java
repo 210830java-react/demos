@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.revature.exceptions.BadRequestException;
 import com.revature.intercom.FlashcardClient;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -86,5 +87,13 @@ public class QuizController {
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
 	public void handleBadRequest(BadRequestException e) {}
+
+
+	// Simple, yet effective, solution for handling failed Feign Client calls.
+	// But...
+	// We will look at the circuit-breaker design pattern
+//	@ExceptionHandler
+//	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+//	public void handleServiceUnavailable(FeignException e) {}
 
 }
