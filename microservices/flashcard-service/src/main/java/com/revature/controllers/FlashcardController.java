@@ -20,14 +20,15 @@ import com.revature.repositories.FlashcardRepository;
 @RequestMapping("flashcard")
 public class FlashcardController {
 	
-	@Autowired
+//	@Autowired // Field-level injection is bad practice :)
 	private FlashcardRepository flashcardDao;
 	
-//	@Autowired
-//	public void setFlashcardDao(FlashcardRepository dao) {
-//		this.flashcardDao = dao;
-//	}
-	
+	@Autowired
+	public void setFlashcardDao(FlashcardRepository dao) {
+		this.flashcardDao = dao;
+	}
+
+	// @Autowired is optional when using constructor injection
 //	public FlashcardController(FlashcardRepository dao) {
 //		this.flashcardDao = dao;
 //	}
