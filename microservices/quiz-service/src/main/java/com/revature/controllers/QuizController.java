@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.revature.exceptions.BadRequestException;
+import com.revature.intercom.FlashcardClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +19,11 @@ import com.revature.repositories.QuizRepository;
 @RequestMapping("/quiz")
 public class QuizController {
 
-//	@Autowired
 	private QuizRepository quizDao;
+	private final FlashcardClient flashcardClient;
 	
-//	@Autowired
-	private RestTemplate restTemplate;
-	
-	public QuizController(RestTemplate template) {
-		this.restTemplate = template;
+	public QuizController(FlashcardClient flashcardClient) {
+		this.flashcardClient = flashcardClient;
 	}
 	
 	@Autowired
@@ -76,7 +74,7 @@ public class QuizController {
 	@SuppressWarnings("unchecked")
 	@GetMapping("/cards")
 	public ResponseEntity<List<Flashcard>> getCards() {
-		List<Flashcard> all = restTemplate.getForObject("http://localhost:8081/flashcard", List.class);
+		List<Flashcard> all = flashcardClient.findAll().getBody();
 		
 		if(all.isEmpty()) {
 			return ResponseEntity.noContent().build();
