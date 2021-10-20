@@ -20,7 +20,7 @@ import lombok.ToString;
 public class Quiz {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private double grade;
