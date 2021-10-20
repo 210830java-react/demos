@@ -47,12 +47,17 @@ public class QuizController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Quiz> findById(@PathVariable("id") int id) {
 		Optional<Quiz> optional = quizDao.findById(id);
-		
-		if(optional.isPresent()) {
-			return ResponseEntity.ok(optional.get());
-		}
-		
-		return ResponseEntity.noContent().build();
+
+//		if(optional.isPresent()) {
+//			return ResponseEntity.ok(optional.get());
+//		}
+//
+//		return ResponseEntity.noContent().build();
+
+		// functional style! :)
+		return optional.map(ResponseEntity::ok)
+					   .orElseGet(() -> ResponseEntity.noContent().build());
+
 	}
 	
 	@PostMapping
