@@ -1,20 +1,22 @@
 package com.revature.intercom;
 
-import com.revature.models.Flashcard;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.revature.models.Flashcard;
 
 @RequestMapping("flashcard")
 @FeignClient(name = "flashcard-service")
 public interface FlashcardClient {
 
     @GetMapping
-    ResponseEntity<List<Flashcard>> findAll();
+    List<Flashcard> findAll();
 
     @GetMapping("/{id}")
-    ResponseEntity<Flashcard> findById(@PathVariable("id") int id);
-
+    Optional<Flashcard> findById(@PathVariable("id") int id);
 }

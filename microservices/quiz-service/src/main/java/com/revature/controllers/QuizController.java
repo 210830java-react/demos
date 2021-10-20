@@ -5,17 +5,20 @@ import java.util.Optional;
 
 import com.revature.exceptions.BadRequestException;
 import com.revature.intercom.FlashcardClient;
-import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import com.revature.models.Flashcard;
 import com.revature.models.Quiz;
 import com.revature.repositories.QuizRepository;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/quiz")
 public class QuizController {
@@ -72,16 +75,27 @@ public class QuizController {
 		return quiz;
 	}
 
-	@SuppressWarnings("unchecked")
+	@RateLimiter(name = "getCardsRate", fallbackMethod = "getCardsRateLimitFallback")
+	@CircuitBreaker(name = "getCardsCircuit", fallbackMethod = "getCardsFallback")
 	@GetMapping("/cards")
 	public ResponseEntity<List<Flashcard>> getCards() {
-		List<Flashcard> all = flashcardClient.findAll().getBody();
+		List<Flashcard> all = flashcardClient.findAll();
 		
 		if(all.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
 		
 		return ResponseEntity.ok(all);
+	}
+	
+	private ResponseEntity<String> getCardsFallback(Throwable throwable) {
+		log.warn("The flashcard Service is unavailable", throwable);
+		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("Couldn't find any flashcards");
+	}
+	
+	private ResponseEntity<String> getCardsRateLimitFallback(Throwable throwable) {
+		log.warn("The rate limit for flashcard-service has been exceeded", throwable);
+		return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Rate Limit Exceeded");
 	}
 
 	@ExceptionHandler

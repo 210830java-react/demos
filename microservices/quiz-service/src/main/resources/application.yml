@@ -18,7 +18,33 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
 
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+    instances:      getCardsCircuit:
+        # Percentage Threshold to consider to open the circuit (e.g. 50%)
+        failure-rate-threshold: 50
+        # Monitor a minimum of requests to determine whether to keep the circuit closed (default is 50)
+        minimum-number-of-calls: 5
+        # Tell how many requests must be successful to reclose the open circuit
+        permitted-number-of-calls-in-half-open-state: 2
+        # Tells how much time the circuit breaker must wait (in ms) in order to decide to half-open the circuit (default 60 seconds)
+        wait-duration-in-open-state: 30000
+  ratelimiter:
+    configs:
+      default:
+        registerHealthIndicator: true    instances:      getCardsRate:
+        timeout-duration: 5000
+        limit-for-period: 1
+        limit-refresh-period: 5000
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 #server.port=8080
 #spring.application.name=quiz-service
