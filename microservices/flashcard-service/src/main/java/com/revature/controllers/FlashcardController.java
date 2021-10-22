@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.models.Flashcard;
 import com.revature.repositories.FlashcardRepository;
 
 @RestController
-@RequestMapping("flashcard")
 public class FlashcardController {
 	
 //	@Autowired // Field-level injection is bad practice :)
